@@ -71,7 +71,7 @@ export function Finale() {
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,#07070a,#0a0809_40%,#0d0a08)]" />
       <div
         aria-hidden
-        className="absolute left-1/2 top-[38%] h-[80vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,190,110,0.22),rgba(200,120,60,0.07)_55%,transparent)] blur-2xl transition-opacity duration-[1600ms]"
+        className="absolute left-1/2 top-[38%] h-[80vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,190,110,0.22),rgba(200,120,60,0.07)_55%,transparent)] transition-opacity duration-[1600ms]"
         style={{ opacity: lit ? 1 : stage === "celebrated" ? 0.5 : 0.25 }}
       />
       <ParticleField density={34} />
@@ -82,7 +82,7 @@ export function Finale() {
         <div className="mt-10 min-h-[8.5rem] md:min-h-[10rem]">
           <AnimatePresence mode="wait">
             {stage === "waiting" || stage === "blowing" ? (
-              <motion.div key="prompt" exit={{ opacity: 0, y: -12, filter: "blur(6px)" }} transition={{ duration: 0.7, ease }}>
+              <motion.div key="prompt" exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.7, ease }}>
                 <h2 id="finale-title" className="font-display text-[clamp(2.3rem,6.6vw,4.6rem)] font-light leading-[1.04] text-ivory">
                   <SplitWords text={finale.headline} lastWordClassName="italic" />
                 </h2>
@@ -119,7 +119,7 @@ export function Finale() {
         >
           <Cake ref={cakeRef} candles={finale.candles} phase={candlePhase} smokeKey={smokeKey} />
           {/* Table reflection */}
-          <div aria-hidden className="mx-auto -mt-3 h-6 w-3/4 rounded-[50%] bg-[radial-gradient(closest-side,rgba(216,184,120,0.25),transparent)] blur-md" />
+          <div aria-hidden className="mx-auto -mt-3 h-6 w-3/4 rounded-[50%] bg-[radial-gradient(closest-side,rgba(216,184,120,0.25),transparent)]" />
         </motion.div>
 
         <div className="mt-12 w-full md:mt-14">
@@ -132,7 +132,7 @@ export function Finale() {
                   disabled={stage !== "waiting"}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="wish-button inline-flex min-h-14 items-center gap-3 rounded-full border border-champagne/60 bg-champagne/10 px-9 py-4 font-sans text-sm font-medium tracking-[0.28em] text-champagne-soft uppercase shadow-[0_0_40px_rgba(216,184,120,0.18),inset_0_0_20px_rgba(216,184,120,0.08)] backdrop-blur-sm transition-[background-color,box-shadow,opacity] duration-500 hover:bg-champagne/20 hover:shadow-[0_0_60px_rgba(216,184,120,0.3),inset_0_0_20px_rgba(216,184,120,0.12)] disabled:cursor-default disabled:opacity-60 touch-manipulation"
+                  className="wish-button inline-flex min-h-14 items-center gap-3 rounded-full border border-champagne/60 bg-champagne/10 px-9 py-4 font-sans text-sm font-medium tracking-[0.28em] text-champagne-soft uppercase shadow-[0_0_40px_rgba(216,184,120,0.18),inset_0_0_20px_rgba(216,184,120,0.08)] transition-[background-color,box-shadow,opacity] duration-500 hover:bg-champagne/20 hover:shadow-[0_0_60px_rgba(216,184,120,0.3),inset_0_0_20px_rgba(216,184,120,0.12)] disabled:cursor-default disabled:opacity-60 touch-manipulation"
                 >
                   {finale.button}
                   <Sparkles aria-hidden className="h-4 w-4" strokeWidth={1.5} />
@@ -149,7 +149,7 @@ export function Finale() {
                 className="mx-auto max-w-2xl outline-none"
               >
                 <motion.h2
-                  variants={{ hidden: { opacity: 0, y: 24, filter: "blur(10px)" }, shown: { opacity: 1, y: 0, filter: "blur(0px)" } }}
+                  variants={{ hidden: { opacity: 0, y: 24 }, shown: { opacity: 1, y: 0 } }}
                   transition={{ duration: 1.6, ease }}
                   id="finale-title"
                   className="font-display font-light leading-[0.98] text-ivory"

@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import { usePauseOffscreen } from "@/lib/usePauseOffscreen";
 import { birthday } from "@/content/birthday";
 import { seeded, range } from "@/lib/random";
 import { SplitWords } from "@/components/motion/SplitWords";
@@ -25,13 +27,15 @@ function Sparkle() {
 
 export function Wishes() {
   const { wishes } = birthday;
+  const ref = useRef<HTMLElement>(null);
+  usePauseOffscreen(ref);
 
   return (
-    <section aria-labelledby="wishes-title" className="relative overflow-hidden px-6 py-32 md:px-12 md:py-48">
+    <section ref={ref} aria-labelledby="wishes-title" className="relative overflow-hidden px-6 py-32 md:px-12 md:py-48">
       {/* Night sky with slow rays of light */}
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_0%,#13121c,#07070a_70%)]" />
       <div aria-hidden className="absolute left-1/2 top-[-30vmax] h-[100vmax] w-[100vmax] -translate-x-1/2 opacity-60">
-        <div className="animate-slow-spin h-full w-full rounded-full bg-[repeating-conic-gradient(from_0deg,rgba(236,217,176,0.05)_0deg_4deg,transparent_4deg_18deg)] [mask-image:radial-gradient(closest-side,black,transparent)]" />
+        <div className="animate-slow-spin h-full w-full will-change-transform rounded-full bg-[repeating-conic-gradient(from_0deg,rgba(236,217,176,0.05)_0deg_4deg,transparent_4deg_18deg)] [mask-image:radial-gradient(closest-side,black,transparent)]" />
       </div>
       <div aria-hidden className="absolute inset-0">
         {STARS.map((s, i) => (
@@ -89,7 +93,7 @@ export function Wishes() {
                     aria-hidden
                     variants={{ hidden: { x: "-100%", opacity: 0 }, shown: { x: "120%", opacity: [0, 1, 0] } }}
                     transition={{ duration: 1.8, delay: 0.5, ease: "easeInOut" }}
-                    className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-champagne-soft/25 to-transparent mix-blend-screen blur-md"
+                    className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-champagne-soft/25 to-transparent"
                   />
                 </span>
               </motion.div>

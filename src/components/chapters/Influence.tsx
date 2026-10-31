@@ -15,13 +15,11 @@ function Statement({ text, index }: { text: string; index: number }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const opacity = useTransform(scrollYProgress, [0.1, 0.4, 0.6, 0.9], [0.12, 1, 1, 0.12]);
   const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [60, -60]);
-  const blur = useTransform(scrollYProgress, [0.1, 0.4, 0.6, 0.9], reduced ? [0, 0, 0, 0] : [4, 0, 0, 4]);
-  const filter = useTransform(blur, (b) => `blur(${b}px)`);
   const lineScale = useTransform(scrollYProgress, [0.25, 0.5], [0, 1]);
 
   return (
     <li ref={ref} className="flex min-h-[62svh] items-center md:min-h-[70svh]">
-      <motion.div style={{ opacity, y, filter }} className="w-full">
+      <motion.div style={{ opacity, y }} className="w-full will-change-transform">
         <div className="mb-6 flex items-center gap-4">
           <span className="font-display text-base italic text-champagne">{ROMAN[index]}</span>
           <motion.span aria-hidden style={{ scaleX: lineScale }} className="h-px w-16 origin-left bg-champagne/50" />

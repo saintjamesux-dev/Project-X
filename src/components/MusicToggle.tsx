@@ -36,7 +36,7 @@ export function MusicToggle() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 4 }}
-      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-midnight/60 text-ivory-dim backdrop-blur-md transition-colors hover:border-champagne/50 hover:text-champagne-soft md:right-8 touch-manipulation"
+      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-midnight/85 text-ivory-dim transition-colors hover:border-champagne/50 hover:text-champagne-soft md:right-8 touch-manipulation"
     >
       {playing ? <Pause className="h-4 w-4" strokeWidth={1.5} aria-hidden /> : <Music2 className="h-4 w-4" strokeWidth={1.5} aria-hidden />}
       {playing && (

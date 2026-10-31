@@ -25,6 +25,22 @@ export function ParticleField({ density = 60, className = "", rise = true }: Par
     if (!ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const small = window.matchMedia("(max-width: 640px)").matches;
+
+    // One pre-rendered glowing mote, stamped with drawImage — far cheaper than a gradient per particle per frame.
+    const SPRITE = 64;
+    const sprite = document.createElement("canvas");
+    sprite.width = sprite.height = SPRITE;
+    const sctx = sprite.getContext("2d");
+    if (sctx) {
+      const g = sctx.createRadialGradient(SPRITE / 2, SPRITE / 2, 0, SPRITE / 2, SPRITE / 2, SPRITE / 2);
+      g.addColorStop(0, "rgba(255, 236, 196, 1)");
+      g.addColorStop(0.4, "rgba(216, 184, 120, 0.45)");
+      g.addColorStop(1, "rgba(216, 184, 120, 0)");
+      sctx.fillStyle = g;
+      sctx.fillRect(0, 0, SPRITE, SPRITE);
+    }
+
     let width = 0;
     let height = 0;
     let particles: Particle[] = [];
@@ -43,13 +59,14 @@ export function ParticleField({ density = 60, className = "", rise = true }: Par
     });
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 2);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.round(density * Math.min(1, (width * height) / (1280 * 800)) + density * 0.25);
+      const base = small ? density * 0.45 : density;
+      const count = Math.round(base * Math.min(1, (width * height) / (1280 * 800)) + base * 0.25);
       particles = Array.from({ length: count }, () => spawn(true));
     };
 
@@ -57,16 +74,11 @@ export function ParticleField({ density = 60, className = "", rise = true }: Par
       ctx.clearRect(0, 0, width, height);
       for (const p of particles) {
         p.phase += p.tw;
-        const alpha = p.a * (0.55 + 0.45 * Math.sin(p.phase));
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-        g.addColorStop(0, `rgba(255, 236, 196, ${alpha})`);
-        g.addColorStop(0.4, `rgba(216, 184, 120, ${alpha * 0.45})`);
-        g.addColorStop(1, "rgba(216, 184, 120, 0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = p.a * (0.55 + 0.45 * Math.sin(p.phase));
+        const d = p.r * 8;
+        ctx.drawImage(sprite, p.x - d / 2, p.y - d / 2, d, d);
       }
+      ctx.globalAlpha = 1;
     };
 
     const step = () => {

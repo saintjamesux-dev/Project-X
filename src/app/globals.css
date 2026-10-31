@@ -86,8 +86,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
@@ -131,17 +130,136 @@ body {
   }
 }
 
+/* ---------- Balloon pops ---------- */
+
+.balloon-sway.is-popped {
+  opacity: 0;
+  transition: opacity 0.06s linear;
+}
+
+.balloon-sway.is-popped button {
+  pointer-events: none;
+}
+
+.entry-balloon {
+  will-change: transform, opacity;
+  animation:
+    entry-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) var(--in) both,
+    entry-pop 0.2s ease-in var(--pop) forwards;
+}
+
+.entry-bob {
+  animation: entry-bob 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes entry-in {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entry-pop {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.16, 1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.45);
+  }
+}
+
+@keyframes entry-bob {
+  from {
+    transform: translateY(0) rotate(-2deg);
+  }
+  to {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+.pop-burst {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.pop-ring {
+  position: absolute;
+  left: -30px;
+  top: -30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid;
+  opacity: 0;
+  animation: pop-ring 0.5s ease-out var(--pop, 0ms) forwards;
+}
+
+.pop-shard {
+  position: absolute;
+  left: -2px;
+  top: -5px;
+  width: 4px;
+  height: 10px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: pop-shard 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) var(--pop, 0ms) forwards;
+}
+
+@keyframes pop-ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes pop-shard {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(0.5);
+  }
+}
+
+@media (max-width: 640px) {
+  .balloon[data-extra] {
+    display: none;
+  }
+}
+
 /* ---------- Light & atmosphere ---------- */
 
 @keyframes breathe {
   0%,
   100% {
     opacity: 0.55;
-    transform: scale(1);
   }
   50% {
     opacity: 0.85;
-    transform: scale(1.06);
   }
 }
 
@@ -157,6 +275,12 @@ body {
 
 .animate-slow-spin {
   animation: slow-spin 120s linear infinite;
+}
+
+@media (max-width: 640px) {
+  .animate-slow-spin {
+    animation: none;
+  }
 }
 
 @keyframes twinkle {
@@ -209,7 +333,7 @@ body {
   );
   transform-origin: 50% 92%;
   animation: flicker var(--flicker, 1.6s) ease-in-out infinite alternate;
-  filter: blur(0.4px);
+  will-change: transform;
   transition:
     transform 0.9s var(--ease-cinema),
     opacity 0.7s ease-out;
@@ -296,8 +420,7 @@ body {
   width: 70%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(220, 214, 205, 0.55), rgba(220, 214, 205, 0) 70%);
-  filter: blur(2px);
+  background: radial-gradient(circle, rgba(220, 214, 205, 0.5), rgba(220, 214, 205, 0) 65%);
   opacity: 0;
   animation: smoke-rise 3.2s ease-out forwards;
 }
@@ -356,6 +479,17 @@ body {
   }
 }
 
+/* Pause decorative loops while their section is scrolled out of view */
+[data-offscreen] .balloon,
+[data-offscreen] .balloon-sway,
+[data-offscreen] .entry-bob,
+[data-offscreen] .animate-breathe,
+[data-offscreen] .animate-slow-spin,
+[data-offscreen] .twinkle,
+[data-offscreen] .animate-cue-line {
+  animation-play-state: paused;
+}
+
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -366,6 +500,11 @@ body {
   .balloon {
     animation: none;
     transform: translate3d(0, var(--rest, 10vh), 0);
+  }
+
+  .entry-balloon,
+  .pop-burst {
+    display: none;
   }
 
   .balloon > .balloon-sway,

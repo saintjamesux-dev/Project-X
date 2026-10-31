@@ -64,7 +64,7 @@ export function Celebrate() {
   const { celebrate } = birthday;
   return (
     <section id="celebrate" aria-labelledby="celebrate-title" className="relative scroll-mt-0 overflow-hidden px-6 py-28 md:px-12 md:py-44">
-      <div aria-hidden className="absolute right-[-20%] top-1/4 h-[60vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(216,184,120,0.07),transparent)] blur-2xl" />
+      <div aria-hidden className="absolute right-[-20%] top-1/4 h-[60vh] w-[60vw] rounded-full bg-[radial-gradient(closest-side,rgba(216,184,120,0.07),transparent)]" />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-24">
         <div className="order-2 md:order-1">

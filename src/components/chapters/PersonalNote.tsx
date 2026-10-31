@@ -14,7 +14,7 @@ export function PersonalNote() {
     <section aria-labelledby="note-title" className="grain relative overflow-hidden px-6 py-32 md:px-12 md:py-48">
       {/* Warm, candle-lit room */}
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,#07070a_0%,#170d0a_14%,#21130d_50%,#170d0a_86%,#07070a_100%)]" />
-      <div aria-hidden className="animate-breathe absolute left-1/2 top-[18%] h-[70vh] w-[110vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(232,170,96,0.16),rgba(150,70,40,0.06)_60%,transparent)] blur-3xl md:w-[70vw]" />
+      <div aria-hidden className="animate-breathe absolute left-1/2 top-[18%] h-[70vh] w-[110vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(232,170,96,0.16),rgba(150,70,40,0.06)_60%,transparent)] md:w-[70vw]" />
       <ParticleField density={26} className="opacity-70" />
 
       <div className="relative mx-auto max-w-2xl">

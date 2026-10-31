@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { birthday } from "@/content/birthday";
 import { entranceCelebration } from "@/lib/confetti";
-import { Balloons } from "@/components/motion/Balloons";
+import { Balloons, ENTRY_POP_DONE } from "@/components/motion/Balloons";
 import { ParticleField } from "@/components/motion/ParticleField";
+import { usePauseOffscreen } from "@/lib/usePauseOffscreen";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -16,9 +17,11 @@ export function Entrance() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const backY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  usePauseOffscreen(ref);
 
   useEffect(() => {
-    const t = window.setTimeout(entranceCelebration, 1500);
+    // Confetti lands just as the last opening balloon bursts.
+    const t = window.setTimeout(entranceCelebration, ENTRY_POP_DONE - 350);
     return () => window.clearTimeout(t);
   }, []);
 
@@ -51,8 +54,8 @@ export function Entrance() {
             {letters.map((ch, i) => (
               <motion.span
                 key={i}
-                initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, delay: 0.35 + i * 0.05, ease }}
                 className="inline-block"
               >
@@ -103,7 +106,7 @@ export function Entrance() {
         </motion.p>
       </motion.div>
 
-      <Balloons layer="front" />
+      <Balloons layer="front" withEntry />
 
       {/* Scroll cue */}
       <motion.a

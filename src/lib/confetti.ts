@@ -4,7 +4,29 @@ import confetti from "canvas-confetti";
 export const CELEBRATION_COLORS = ["#d8b878", "#ecd9b0", "#f4eee3", "#7a2236", "#24386e", "#c98f8f", "#2f5e4e"];
 export const GOLD_COLORS = ["#fff3cf", "#ecd9b0", "#d8b878", "#c79a4f"];
 
-const base = { disableForReducedMotion: true, zIndex: 60 } as const;
+const base = {} as const;
+
+type Fire = (options?: confetti.Options) => Promise<null> | null;
+let instance: Fire | null = null;
+
+/** One shared, full-screen confetti canvas rendered off the main thread where supported. */
+function fire(options: confetti.Options) {
+  if (!instance) {
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    Object.assign(canvas.style, {
+      position: "fixed",
+      inset: "0",
+      width: "100%",
+      height: "100%",
+      pointerEvents: "none",
+      zIndex: "60",
+    });
+    document.body.appendChild(canvas);
+    instance = confetti.create(canvas, { resize: true, useWorker: true, disableForReducedMotion: true });
+  }
+  return instance(options);
+}
 
 export function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -13,10 +35,10 @@ export function prefersReducedMotion() {
 /** Twin cannons from the lower corners, then a soft falling shower. */
 export function entranceCelebration() {
   const small = window.innerWidth < 640;
-  const count = small ? 70 : 120;
+  const count = small ? 45 : 120;
 
-  const fire = (x: number, angle: number) =>
-    confetti({
+  const cannon = (x: number, angle: number) =>
+    fire({
       ...base,
       particleCount: count,
       angle,
@@ -29,13 +51,13 @@ export function entranceCelebration() {
       scalar: small ? 0.85 : 1,
     });
 
-  fire(0, 62);
-  fire(1, 118);
+  cannon(0, 62);
+  cannon(1, 118);
 
   window.setTimeout(() => {
-    confetti({
+    fire({
       ...base,
-      particleCount: small ? 50 : 90,
+      particleCount: small ? 35 : 90,
       spread: 160,
       startVelocity: 18,
       origin: { x: 0.5, y: -0.05 },
@@ -52,7 +74,7 @@ export function entranceCelebration() {
 export function wishCelebration(origin: { x: number; y: number }) {
   const small = window.innerWidth < 640;
 
-  confetti({
+  fire({
     ...base,
     particleCount: small ? 60 : 100,
     spread: 360,
@@ -67,21 +89,21 @@ export function wishCelebration(origin: { x: number; y: number }) {
   });
 
   window.setTimeout(() => {
-    confetti({
+    fire({
       ...base,
-      particleCount: small ? 90 : 160,
+      particleCount: small ? 60 : 160,
       spread: 100,
       startVelocity: small ? 45 : 55,
       origin: { x: origin.x, y: Math.min(origin.y + 0.05, 0.9) },
       colors: CELEBRATION_COLORS,
       ticks: 360,
     });
-    confetti({ ...base, particleCount: small ? 40 : 70, angle: 60, spread: 60, origin: { x: 0, y: 0.85 }, colors: CELEBRATION_COLORS });
-    confetti({ ...base, particleCount: small ? 40 : 70, angle: 120, spread: 60, origin: { x: 1, y: 0.85 }, colors: CELEBRATION_COLORS });
+    fire({ ...base, particleCount: small ? 25 : 70, angle: 60, spread: 60, origin: { x: 0, y: 0.85 }, colors: CELEBRATION_COLORS });
+    fire({ ...base, particleCount: small ? 25 : 70, angle: 120, spread: 60, origin: { x: 1, y: 0.85 }, colors: CELEBRATION_COLORS });
   }, 350);
 
   window.setTimeout(() => {
-    confetti({
+    fire({
       ...base,
       particleCount: small ? 50 : 90,
       spread: 170,
