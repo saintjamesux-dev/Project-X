@@ -115,7 +115,7 @@ export function Finale() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 1.6, ease }}
-          className="relative mt-6 w-[min(84vw,24rem)] md:w-[27rem]"
+          className="relative mt-6 w-[min(84vw,24rem,50svh)] md:w-[min(27rem,52svh)]"
         >
           <Cake ref={cakeRef} candles={finale.candles} phase={candlePhase} smokeKey={smokeKey} />
           {/* Table reflection */}

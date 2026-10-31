@@ -47,7 +47,7 @@ export function Entrance() {
       >
         <h1 className="flex flex-col items-center">
           <span className="sr-only">{`${entrance.eyebrow}, ${entrance.name.join(" ")}`}</span>
-          <span aria-hidden className="mb-6 flex font-sans text-[0.72rem] font-medium tracking-[0.55em] text-champagne sm:text-sm md:mb-8">
+          <span aria-hidden className="mb-6 flex font-sans [@media(max-height:500px)]:mb-3 text-[0.72rem] font-medium tracking-[0.55em] text-champagne sm:text-sm md:mb-8">
             {letters.map((ch, i) => (
               <motion.span
                 key={i}
@@ -67,7 +67,7 @@ export function Entrance() {
                 initial={{ y: "105%" }}
                 animate={{ y: "0%" }}
                 transition={{ duration: 1.4, delay: 1.0, ease }}
-                className="block text-[clamp(2.6rem,11vw,7.5rem)] italic text-ivory-dim"
+                className="block text-[clamp(2rem,min(11vw,15svh),7.5rem)] italic text-ivory-dim"
               >
                 {entrance.name[0]}
               </motion.span>
@@ -77,7 +77,7 @@ export function Entrance() {
                 initial={{ y: "105%" }}
                 animate={{ y: "0%" }}
                 transition={{ duration: 1.5, delay: 1.2, ease }}
-                className="text-gold-sheen block text-[clamp(3.6rem,17vw,12rem)] uppercase tracking-[0.02em]"
+                className="text-gold-sheen block text-[clamp(2.6rem,min(17vw,24svh),12rem)] uppercase tracking-[0.02em]"
               >
                 {entrance.name[1]}
               </motion.span>
@@ -89,7 +89,7 @@ export function Entrance() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1.6, delay: 2.1, ease }}
-          className="my-7 h-px w-24 bg-gradient-to-r from-transparent via-champagne to-transparent md:my-9 md:w-40"
+          className="my-7 h-px w-24 [@media(max-height:500px)]:my-4 bg-gradient-to-r from-transparent via-champagne to-transparent md:my-9 md:w-40"
           aria-hidden
         />
 
@@ -97,7 +97,7 @@ export function Entrance() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 2.4, ease }}
-          className="font-display text-2xl italic text-ivory/90 md:text-4xl"
+          className="font-display text-2xl italic text-ivory/90 md:text-4xl [@media(max-height:500px)]:text-xl"
         >
           {entrance.tagline}
         </motion.p>
@@ -111,7 +111,7 @@ export function Entrance() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.4, delay: 3.4 }}
-        className="group absolute bottom-[max(2rem,env(safe-area-inset-bottom))] left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4 px-4 text-center"
+        className="group absolute bottom-[max(2rem,env(safe-area-inset-bottom))] [@media(max-height:500px)]:hidden left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-4 px-4 text-center"
       >
         <span className="whitespace-nowrap font-sans text-[0.68rem] tracking-[0.08em] text-ivory-dim sm:tracking-[0.18em] transition-colors group-hover:text-champagne-soft sm:text-xs">
           {entrance.scrollCue} <span aria-hidden>↓</span>
